@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+
+{% block title %}No comment yet!{% endblock %}
+
+{% block content %}
+
+    <p>You ain't wrote nuffink yet!</p>
+
+{% endblock %}

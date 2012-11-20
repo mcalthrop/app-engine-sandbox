@@ -1,19 +1,5 @@
 #!/usr/bin/env python
-#
-# Copyright 2007 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+
 __author__ = 'mcalthrop'
 
 import cgi
@@ -35,29 +21,22 @@ class MainPage(webapp.RequestHandler):
                 'userNickname': user.nickname()
             }
 
-            path = os.path.join(os.path.dirname(__file__), 'templates', 'index.html')
-            self.response.out.write(template.render(path, templateValues))
+            templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'home.st')
+            self.response.out.write(template.render(templateFile, templateValues))
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
 class GuestbookPage(webapp.RequestHandler):
-    def header(self):
-        self.response.out.write('<!DOCTYPE html>\n<html><head><title>Guestbook register</title><link type="text/css" rel="stylesheet" href="/css/main.css" /></head><body>')
-
-    def footer(self):
-        self.response.out.write('<p>Go <a href="/">home</a>.</p></body></html>')
-
     def post(self):
-        self.header()
-        self.response.out.write('You wrote:<pre>')
-        self.response.out.write(cgi.escape(self.request.get('content')))
-        self.response.out.write('</pre></body></html>')
-        self.footer()
+        templateValues = {
+            'comments': cgi.escape(self.request.get('content'))
+        }
+        templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'signed.st')
+        self.response.out.write(template.render(templateFile, templateValues))
 
     def get(self):
-        self.header()
-        self.response.out.write('<p>You ain\'t written nuffink yet.</p>')
-        self.footer()
+        templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'notsigned.st')
+        self.response.out.write(template.render(templateFile, {}))
 
 app = webapp.WSGIApplication(
     [
