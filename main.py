@@ -14,13 +14,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2
+__author__ = 'mcalthrop'
 
-class MainPage(webapp2.RequestHandler):
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp.util import run_wsgi_app
+
+class MainPage(webapp.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
-        self.response.write('this is the day<br>your life will surely change')
+        self.response.out.write('this is the day<br>your life will surely change')
 
-app = webapp2.WSGIApplication([
-    ('/', MainPage)
-], debug=True)
+app = webapp.WSGIApplication(
+    [
+        ('/', MainPage)
+    ],
+    debug=True
+)
+
+def main():
+    run_wsgi_app(app)
+
+if __name__ == "__main__":
+    main()
+
