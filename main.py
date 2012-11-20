@@ -16,6 +16,8 @@
 #
 __author__ = 'mcalthrop'
 
+import cgi
+
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -26,13 +28,38 @@ class MainPage(webapp.RequestHandler):
 
         if user:
             self.response.headers['Content-Type'] = 'text/html'
-            self.response.out.write('this is the day<br>your life will surely change, ' + user.nickname())
+            self.response.out.write("""
+                <html>
+                    <p>this is the day<br>your life will surely change, """ + user.nickname() + """</p>
+                    <body>
+                        <form action="/sign" method="post">
+                            <div><textarea name="content" rows="3" cols="60"></textarea></div>
+                            <div><input type="submit" value="Sign Guestbook"></div>
+                        </form>
+                    </body>
+                </html>
+            """)
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
+class GuestbookPage(webapp.RequestHandler):
+    def common(self):
+        self.response.out.write('<p>Go <a href="/">home</a>.</p></body></html>')
+
+    def post(self):
+        self.response.out.write('<html><body>You wrote:<pre>')
+        self.response.out.write(cgi.escape(self.request.get('content')))
+        self.response.out.write('</pre></body></html>')
+        self.common()
+
+    def get(self):
+        self.response.out.write('<html><body><p>You ain\'t written nuffink yet.</p>')
+        self.common()
+
 app = webapp.WSGIApplication(
     [
-        ('/', MainPage)
+        ('/', MainPage),
+        ('/sign', GuestbookPage)
     ],
     debug=True
 )
