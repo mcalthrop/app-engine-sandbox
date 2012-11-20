@@ -30,8 +30,9 @@ class MainPage(webapp.RequestHandler):
             self.response.headers['Content-Type'] = 'text/html'
             self.response.out.write("""
                 <html>
-                    <p>this is the day<br>your life will surely change, """ + user.nickname() + """</p>
+                    <link type="text/css" rel="stylesheet" href="/css/main.css" />
                     <body>
+                        <p>this is the day<br>your life will surely change, """ + user.nickname() + """</p>
                         <form action="/sign" method="post">
                             <div><textarea name="content" rows="3" cols="60"></textarea></div>
                             <div><input type="submit" value="Sign Guestbook"></div>
