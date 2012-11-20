@@ -19,9 +19,9 @@ __author__ = 'mcalthrop'
 import cgi
 import os
 
-from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 class MainPage(webapp.RequestHandler):
@@ -41,18 +41,23 @@ class MainPage(webapp.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
 class GuestbookPage(webapp.RequestHandler):
-    def common(self):
+    def header(self):
+        self.response.out.write('<!DOCTYPE html>\n<html><head><title>Guestbook register</title><link type="text/css" rel="stylesheet" href="/css/main.css" /></head><body>')
+
+    def footer(self):
         self.response.out.write('<p>Go <a href="/">home</a>.</p></body></html>')
 
     def post(self):
-        self.response.out.write('<html><body>You wrote:<pre>')
+        self.header()
+        self.response.out.write('You wrote:<pre>')
         self.response.out.write(cgi.escape(self.request.get('content')))
         self.response.out.write('</pre></body></html>')
-        self.common()
+        self.footer()
 
     def get(self):
-        self.response.out.write('<html><body><p>You ain\'t written nuffink yet.</p>')
-        self.common()
+        self.header()
+        self.response.out.write('<p>You ain\'t written nuffink yet.</p>')
+        self.footer()
 
 app = webapp.WSGIApplication(
     [
