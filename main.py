@@ -17,7 +17,9 @@
 __author__ = 'mcalthrop'
 
 import cgi
+import os
 
+from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -28,18 +30,13 @@ class MainPage(webapp.RequestHandler):
 
         if user:
             self.response.headers['Content-Type'] = 'text/html'
-            self.response.out.write("""
-                <html>
-                    <link type="text/css" rel="stylesheet" href="/css/main.css" />
-                    <body>
-                        <p>this is the day<br>your life will surely change, """ + user.nickname() + """</p>
-                        <form action="/sign" method="post">
-                            <div><textarea name="content" rows="3" cols="60"></textarea></div>
-                            <div><input type="submit" value="Sign Guestbook"></div>
-                        </form>
-                    </body>
-                </html>
-            """)
+
+            templateValues = {
+                'userNickname': user.nickname()
+            }
+
+            path = os.path.join(os.path.dirname(__file__), 'templates', 'index.html')
+            self.response.out.write(template.render(path, templateValues))
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
