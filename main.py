@@ -12,8 +12,6 @@ class MainPage(webapp.RequestHandler):
         user = users.get_current_user()
 
         if user:
-            self.response.headers['Content-Type'] = 'text/html'
-
             templateValues = {
                 'userNickname': user.nickname()
             }
