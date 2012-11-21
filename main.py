@@ -1,8 +1,5 @@
-#!/usr/bin/env python
-
 __author__ = 'mcalthrop'
 
-import cgi
 import os
 
 from google.appengine.api import users
