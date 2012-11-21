@@ -9,7 +9,6 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class GuestbookPage(webapp.RequestHandler):
     def post(self):
-        self.response.headers['Content-Type'] = 'text/html'
         templateValues = {
             'comments': cgi.escape(self.request.get('content'))
         }
@@ -17,7 +16,6 @@ class GuestbookPage(webapp.RequestHandler):
         self.response.out.write(template.render(templateFile, templateValues))
 
     def get(self):
-        self.response.headers['Content-Type'] = 'text/html'
         templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'notsigned.template.html')
         self.response.out.write(template.render(templateFile, {}))
 
