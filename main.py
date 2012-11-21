@@ -21,27 +21,14 @@ class MainPage(webapp.RequestHandler):
                 'userNickname': user.nickname()
             }
 
-            templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'home.st')
+            templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'home.template.html')
             self.response.out.write(template.render(templateFile, templateValues))
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
-class GuestbookPage(webapp.RequestHandler):
-    def post(self):
-        templateValues = {
-            'comments': cgi.escape(self.request.get('content'))
-        }
-        templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'signed.st')
-        self.response.out.write(template.render(templateFile, templateValues))
-
-    def get(self):
-        templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'notsigned.st')
-        self.response.out.write(template.render(templateFile, {}))
-
 app = webapp.WSGIApplication(
     [
-        ('/', MainPage),
-        ('/sign', GuestbookPage)
+        ('/', MainPage)
     ],
     debug=True
 )
