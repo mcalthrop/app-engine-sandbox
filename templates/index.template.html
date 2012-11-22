@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %}App Engine Sandbox{% endblock %}</title>
-    <link type="text/css" rel="stylesheet" href="/css/main.css" />
-</head>
+{% extends "base.template.html" %}
 
-<body>
+{% block title %}Write your comment here{% endblock %}
 
-<div id="content">
-    {% block content %}{% endblock %}
-</div>
+{% block content %}
+    <p>this is the day<br>your life will surely change, {{ userNickname }}</p>
 
-<div id="footer">
-    <p><a href="/">Home</a></p>
-</div>
-
-</body>
-</html>
+    <ul>
+        <li><a href="/sign">Guestbook</a></li>
+    </ul>
+{% endblock %}

@@ -1,25 +1,13 @@
 __author__ = 'mcalthrop'
 
-import os
+import page
 
-from google.appengine.api import users
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-class MainPage(webapp.RequestHandler):
-    def get(self):
-        user = users.get_current_user()
-
-        if user:
-            templateValues = {
-                'userNickname': user.nickname()
-            }
-
-            templateFile = os.path.join(os.path.dirname(__file__), 'templates', 'home.template.html')
-            self.response.out.write(template.render(templateFile, templateValues))
-        else:
-            self.redirect(users.create_login_url(self.request.uri))
+class MainPage(page.Page):
+    def __init__(self, request, response):
+        page.Page.__init__(self, request, response, 'index.template.html')
 
 app = webapp.WSGIApplication(
     [
@@ -34,3 +22,4 @@ def main():
 if __name__ == "__main__":
     main()
 
+# EOF

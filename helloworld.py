@@ -1,9 +1,14 @@
 __author__ = 'mcalthrop'
 
+import page
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-class HelloWorld(webapp.RequestHandler):
+class HelloWorld(page.Page):
+    def __init__(self, request, response):
+        page.Page.__init__(self, request, response)
+
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.out.write('hello there, world')
@@ -17,3 +22,4 @@ app = webapp.WSGIApplication(
 
 run_wsgi_app(app)
 
+# EOF

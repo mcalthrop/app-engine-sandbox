@@ -1,9 +1,14 @@
-{% extends "index.template.html" %}
+{% extends "base.template.html" %}
 
 {% block title %}No comment yet!{% endblock %}
 
 {% block content %}
 
-    <p>You ain't wrote nuffink yet!</p>
+    <p>Here's your big chance to sign the guestbook:</p>
+
+    <form action="/sign" method="post">
+        <div><textarea name="content" rows="3" cols="60"></textarea></div>
+        <div><input type="submit" value="Sign Guestbook"></div>
+    </form>
 
 {% endblock %}
