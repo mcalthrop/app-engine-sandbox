@@ -21,8 +21,11 @@ class GuestbookPage(page.Page):
             self.redirect(users.create_login_url(self.request.uri))
 
     def post(self):
+        user = users.get_current_user()
+
         self.templateName = 'signed.template.html'
         self.templateValues = {
+            'userNickname': user.nickname(),
             'comments': self.request.get('content')
         }
         # call super

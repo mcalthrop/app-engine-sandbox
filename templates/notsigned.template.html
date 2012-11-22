@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <p>Here's your big chance to sign the guestbook:</p>
+    <p>Here's your big chance to sign the guestbook, {{ userNickname }}:</p>
 
     <form action="/sign" method="post">
         <div><textarea name="content" rows="3" cols="60"></textarea></div>
