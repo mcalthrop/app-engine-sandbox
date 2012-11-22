@@ -7,9 +7,6 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 class GuestbookPage(page.Page):
-    def __init__(self, request, response):
-        page.Page.__init__(self, request, response)
-
     def get(self):
         user = users.get_current_user()
 
